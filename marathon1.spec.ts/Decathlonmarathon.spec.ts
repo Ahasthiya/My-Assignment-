@@ -1,0 +1,20 @@
+import {test,expect} from "@playwright/test"
+test ("Learn to order in decathlon",async({page})=>{
+    await page.goto("https://www.decathlon.in/")
+    await page.locator('[type="search"]').click()
+    await page.locator('[type="search"]').fill("shoes")
+    await page.locator('[type="search"]').press("Enter")
+    await page.locator("//span[text()='Sport']").click()
+    await page.locator('[data-test-id="filter-checkbox-sport_pratice_en-Running"]').click()
+    await page.locator("//span[text()='Gender']").click()
+    await page.locator('[data-test-id="filter-checkbox-gender_id_en-WOMEN"]').click()
+    await page.locator("//span[text()='Size']").click()
+    await page.locator('[data-test-id="filter-checkbox-indian_size-8"]').click()
+    await page.locator("//span[text()='Most relevant']").click()
+    await page.locator('[class="flex items-center gap-2"]').nth(1).click()
+    await page.locator('[class="aspect-square h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"]').nth(0).click()
+    await page.locator('[aria-label="Select size 8"]').click()
+    await page.locator('[data-test-id="pdp:add-to-cart-button"]').click()
+    await expect(page.getByText('Product(s) added to cart')).toBeVisible()
+    }
+)
