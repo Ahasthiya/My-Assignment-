@@ -1,0 +1,33 @@
+import test from "@playwright/test"
+import dotenv from "dotenv"
+dotenv.config({path:"Data/leaftaps.env"})
+test ('learn to read data from env file',async({page})=>{
+    await page.goto(process.env.a_URL as string)
+    await page.locator('[id="username"]').fill(process.env.a_Username as string)
+    await page.locator('[id="password"]').fill(process.env.a_Password as string)
+    await page.locator('[class="decorativeSubmit"]').click()
+    await page.locator("//a[contains(text(),'CRM/SFA')]").click()
+    await page.locator("//a[text()='Leads']").click()
+    await page.locator("//a[text()='Create Lead']").click()
+    await page.locator('[id="createLeadForm_companyName"]').fill(process.env.a_Companyname as string)
+    await page.locator('[id="createLeadForm_firstName"]').fill(process.env.a_Firstname as string)
+    await page.locator('[id="createLeadForm_lastName"]').fill(process.env.a_lastname as string)
+    await page.locator('[id="createLeadForm_dataSourceId"]').selectOption({label:'Direct Mail'})
+    await page.locator('[id="createLeadForm_marketingCampaignId"]').selectOption({label:'Demo Marketing Campaign'})
+    const options = page.locator('[id="createLeadForm_marketingCampaignId"]>option')
+    const count=await options.count()
+    console.log(count)
+    for(let i=0;i<count;i++){
+        console.log(await options.nth(i).innerText())
+    }
+    await page.locator('[id="createLeadForm_industryEnumId"]').selectOption({label:'General Services'})
+    await page.locator('[id="createLeadForm_currencyUomId"]').selectOption({label:'INR - Indian Rupee'})
+    await page.locator('[id="createLeadForm_generalCountryGeoId"]').selectOption({label:'India'})
+    await page.locator('[id="createLeadForm_generalStateProvinceGeoId"]').selectOption({label:"TAMILNADU"})
+    const statevalue =page.locator('[id="createLeadForm_generalStateProvinceGeoId"]>option')
+    const value =await statevalue.count()
+    console.log(value)
+    for(let i=0;i<value;i++)
+        console.log(await statevalue.nth(i).innerText())
+    await page.locator('[value="Create Lead"]').click()
+})
